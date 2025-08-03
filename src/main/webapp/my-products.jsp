@@ -214,27 +214,10 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Xác nhận xóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
-                    <p class="text-muted">Hành động này không thể hoàn tác.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <form id="deleteForm" method="post" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Xóa</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Hidden form for delete -->
+    <form id="deleteForm" method="post" style="display: none;">
+        <input type="hidden" name="id" id="deleteProductId">
+    </form>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-4 mt-5">
@@ -248,12 +231,9 @@
         function deleteProduct(productId) {
             if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
                 const form = document.getElementById('deleteForm');
-                form.action = 'product/delete';
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'id';
+                const input = document.getElementById('deleteProductId');
+                form.action = '${pageContext.request.contextPath}/product/delete';
                 input.value = productId;
-                form.appendChild(input);
                 form.submit();
             }
         }
