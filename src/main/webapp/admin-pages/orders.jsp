@@ -4,13 +4,13 @@
             <!DOCTYPE html>
             <html lang="vi">
 
-<<<<<<< HEAD
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Quản lý đơn hàng - Admin</title>
+                <title>Quản lý đơn hàng - Mobile Shop</title>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+                <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
             </head>
 
             <body>
@@ -22,20 +22,7 @@
                     <div
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2"><i class="fas fa-shopping-cart me-2"></i>Quản lý đơn hàng</h1>
-                        <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group me-2">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Xuất Excel</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">In báo cáo</button>
-                            </div>
-                        </div>
                     </div>
-=======
-    <!-- Main Content -->
-    <div class="container my-5">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2"><i class="fas fa-shopping-cart me-2"></i>Quản lý đơn hàng</h1>
-                </div>
->>>>>>> 1f7bda8ac876eb87888026d4eb7e161294634b3d
 
                     <!-- Filter Section -->
                     <form method="get" action="${pageContext.request.contextPath}/admin/orders">
@@ -163,7 +150,6 @@
                             </li>
                         </ul>
                     </nav>
-                </div>
                 </div>
 
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

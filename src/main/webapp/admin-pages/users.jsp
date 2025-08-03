@@ -58,6 +58,7 @@
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
+                                <th>Địa chỉ</th>
                                 <th>Vai trò</th>
                                 <th>Thao tác</th>
                             </tr>
@@ -70,15 +71,13 @@
                                     <td>${user.username}</td>
                                     <td>${user.email}</td>
                                     <td>${user.phone}</td>
+                                    <td>${user.address}</td>
                                     <td>
                                         <span class="badge ${user.role == 'admin' ? 'bg-danger' : 'bg-primary'}">
                                             ${user.role == 'admin' ? 'Admin' : 'Khách hàng'}
                                         </span>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-primary" onclick="editUser('${user.id}')">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
                                         <button class="btn btn-sm btn-outline-danger"
                                             onclick="deleteUser('${user.id}')">
                                             <i class="fas fa-trash"></i>
@@ -164,77 +163,8 @@
                 </div>
             </div>
 
-            <!-- Edit User Modal -->
-            <div class="modal fade" id="editUserModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Chỉnh sửa người dùng</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <form action="${pageContext.request.contextPath}/admin/update-user" method="post">
-                            <input type="hidden" id="editUserId" name="id">
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="editUsername" class="form-label">Username *</label>
-                                    <input type="text" class="form-control" id="editUsername" name="username" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editFullName" class="form-label">Họ tên *</label>
-                                    <input type="text" class="form-control" id="editFullName" name="fullName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editEmail" class="form-label">Email *</label>
-                                    <input type="email" class="form-control" id="editEmail" name="email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editPhone" class="form-label">Số điện thoại</label>
-                                    <input type="tel" class="form-control" id="editPhone" name="phone">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editAddress" class="form-label">Địa chỉ</label>
-                                    <textarea class="form-control" id="editAddress" name="address" rows="3"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editRole" class="form-label">Vai trò *</label>
-                                    <select class="form-select" id="editRole" name="role" required>
-                                        <option value="customer">Khách hàng</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                <button type="submit" class="btn btn-primary">Cập nhật</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
             <script>
-                function editUser(userId) {
-                    // Load user data and show edit modal
-                    fetch('${pageContext.request.contextPath}/admin/get-user?id=' + userId)
-                        .then(response => response.json())
-                        .then(user => {
-                            document.getElementById('editUserId').value = user.id;
-                            document.getElementById('editUsername').value = user.username;
-                            document.getElementById('editFullName').value = user.fullName;
-                            document.getElementById('editEmail').value = user.email;
-                            document.getElementById('editPhone').value = user.phone || '';
-                            document.getElementById('editAddress').value = user.address || '';
-                            document.getElementById('editRole').value = user.role;
-
-                            new bootstrap.Modal(document.getElementById('editUserModal')).show();
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Có lỗi xảy ra khi tải thông tin người dùng');
-                        });
-                }
-
                 function deleteUser(userId) {
                     if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
                         fetch('${pageContext.request.contextPath}/admin/delete-user?id=' + userId, { method: 'POST' })

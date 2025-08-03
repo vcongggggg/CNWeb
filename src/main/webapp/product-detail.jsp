@@ -4,7 +4,6 @@
             <!DOCTYPE html>
             <html lang="vi">
 
-<<<<<<< HEAD
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +19,15 @@
 
                 <!-- Main Content -->
                 <div class="container mt-4">
+                    <c:if test="${not empty param.error && param.error == 'own_product'}">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Không thể mua sản phẩm của chính mình!</strong> Bạn không thể thêm sản phẩm do chính
+                            mình đăng bán vào giỏ hàng.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    </c:if>
+
                     <c:if test="${not empty product}">
                         <div class="row">
                             <!-- Product Image -->
@@ -72,22 +80,49 @@
                                 </div>
 
                                 <c:if test="${not empty sessionScope.user}">
-                                    <form action="${pageContext.request.contextPath}/order/add-to-cart" method="post"
-                                        class="mb-3">
-                                        <input type="hidden" name="productId" value="${product.id}">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="quantity" class="form-label">Số lượng:</label>
-                                                <input type="number" class="form-control" id="quantity" name="quantity"
-                                                    value="1" min="1" max="${product.stock}">
+                                    <c:choose>
+                                        <c:when test="${sessionScope.user.role == 'admin'}">
+                                            <!-- Admin users cannot add to cart -->
+                                            <div class="d-grid gap-2">
+                                                <a href="${pageContext.request.contextPath}/admin/products"
+                                                    class="btn btn-outline-primary">
+                                                    <i class="fas fa-cog me-2"></i>Quản lý sản phẩm
+                                                </a>
                                             </div>
-                                            <div class="col-md-8">
-                                                <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
-                                                    <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
-                                                </button>
+                                        </c:when>
+                                        <c:when test="${sessionScope.user.id == product.sellerId}">
+                                            <!-- Users cannot buy their own products -->
+                                            <div class="alert alert-warning mb-3">
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <strong>Lưu ý:</strong> Bạn không thể mua sản phẩm của chính mình.
                                             </div>
-                                        </div>
-                                    </form>
+                                            <div class="d-grid gap-2">
+                                                <a href="${pageContext.request.contextPath}/product/my-products"
+                                                    class="btn btn-outline-primary">
+                                                    <i class="fas fa-box me-2"></i>Quản lý sản phẩm của tôi
+                                                </a>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!-- Regular users can add to cart -->
+                                            <form action="${pageContext.request.contextPath}/order/add-to-cart"
+                                                method="post" class="mb-3">
+                                                <input type="hidden" name="productId" value="${product.id}">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="quantity" class="form-label">Số lượng:</label>
+                                                        <input type="number" class="form-control" id="quantity"
+                                                            name="quantity" value="1" min="1" max="${product.stock}">
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
+                                                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:if>
 
                                 <div class="d-grid gap-2">
@@ -98,98 +133,6 @@
                                 </div>
                             </div>
                         </div>
-=======
-    <!-- Main Content -->
-    <div class="container mt-4">
-        <c:if test="${not empty param.error && param.error == 'own_product'}">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                <strong>Không thể mua sản phẩm của chính mình!</strong> Bạn không thể thêm sản phẩm do chính mình đăng bán vào giỏ hàng.
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        </c:if>
-        
-        <c:if test="${not empty product}">
-            <div class="row">
-                <!-- Product Image -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <img src="${product.image}" class="card-img-top" alt="${product.name}" style="max-height: 400px; object-fit: contain;">
-                    </div>
-                </div>
-                
-                <!-- Product Details -->
-                <div class="col-md-6">
-                    <h2 class="mb-3">${product.name}</h2>
-                    <div class="mb-3">
-                        <span class="badge bg-primary">${product.brand}</span>
-                        <span class="badge bg-secondary">${product.category}</span>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <h3 class="text-danger">
-                            <fmt:formatNumber value="${product.price}" pattern="#,###" /> VNĐ
-                        </h3>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <h5>Mô tả:</h5>
-                        <p>${product.description}</p>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <strong>Tình trạng:</strong> ${product.condition}
-                        </div>
-                        <div class="col-6">
-                            <strong>Bảo hành:</strong> ${product.warranty}
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <strong>Địa điểm:</strong> ${product.location}
-                        </div>
-                        <div class="col-6">
-                            <strong>Còn lại:</strong> ${product.stock} sản phẩm
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <strong>Liên hệ:</strong> ${product.contactInfo}
-                    </div>
-                    
-                    <c:if test="${not empty sessionScope.user}">
-                        <c:choose>
-                            <c:when test="${sessionScope.user.id == product.sellerId}">
-                                <div class="alert alert-warning mb-3">
-                                    <i class="fas fa-exclamation-triangle me-2"></i>
-                                    <strong>Lưu ý:</strong> Bạn không thể mua sản phẩm của chính mình.
-                                </div>
-                                <div class="d-grid gap-2">
-                                    <a href="${pageContext.request.contextPath}/seller/products" class="btn btn-outline-primary">
-                                        <i class="fas fa-box me-2"></i>Quản lý sản phẩm của tôi
-                                    </a>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <form action="${pageContext.request.contextPath}/order/add-to-cart" method="post" class="mb-3">
-                                    <input type="hidden" name="productId" value="${product.id}">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label for="quantity" class="form-label">Số lượng:</label>
-                                            <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="${product.stock}">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
-                                                <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </c:otherwise>
-                        </c:choose>
->>>>>>> 1f7bda8ac876eb87888026d4eb7e161294634b3d
                     </c:if>
 
                     <c:if test="${empty product}">

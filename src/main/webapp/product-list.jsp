@@ -124,6 +124,51 @@
                                                                             class="btn btn-outline-primary btn-sm">
                                                                             <i class="fas fa-eye"></i> Xem chi tiết
                                                                         </a>
+
+                                                                        <!-- Role-based cart functionality -->
+                                                                        <c:if test="${not empty sessionScope.user}">
+                                                                            <c:choose>
+                                                                                <c:when
+                                                                                    test="${sessionScope.user.role == 'admin'}">
+                                                                                    <!-- Admin users cannot add to cart -->
+                                                                                    <button
+                                                                                        class="btn btn-outline-secondary btn-sm"
+                                                                                        disabled>
+                                                                                    </button>
+                                                                                </c:when>
+                                                                                <c:when
+                                                                                    test="${sessionScope.user.id == product.sellerId}">
+                                                                                    <!-- Users cannot buy their own products -->
+                                                                                    <button
+                                                                                        class="btn btn-outline-warning btn-sm"
+                                                                                        disabled>
+                                                                                        <i
+                                                                                            class="fas fa-exclamation-triangle"></i>
+                                                                                        Sản phẩm của bạn
+                                                                                    </button>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <!-- Regular users can add to cart -->
+                                                                                    <form
+                                                                                        action="${pageContext.request.contextPath}/order/add-to-cart"
+                                                                                        method="post"
+                                                                                        style="display: inline;">
+                                                                                        <input type="hidden"
+                                                                                            name="productId"
+                                                                                            value="${product.id}">
+                                                                                        <input type="hidden"
+                                                                                            name="quantity" value="1">
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-success btn-sm w-100">
+                                                                                            <i
+                                                                                                class="fas fa-cart-plus"></i>
+                                                                                            Thêm vào giỏ hàng
+                                                                                        </button>
+                                                                                    </form>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </c:if>
+
                                                                         <c:if
                                                                             test="${sessionScope.user != null && sessionScope.user.role == 'admin'}">
                                                                             <div class="btn-group btn-group-sm"
