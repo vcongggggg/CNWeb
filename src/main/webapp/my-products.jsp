@@ -15,7 +15,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="index.jsp">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/">
                 <i class="fas fa-mobile-alt me-2"></i>Mobile Shop
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -24,14 +24,21 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.jsp">Trang chủ</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="product-list.jsp">Sản phẩm</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/order/cart">Giỏ hàng</a>
-                    </li>
+                    <c:if test="${not empty sessionScope.user}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/order/cart">
+                                <i class="fas fa-shopping-cart"></i> Giỏ hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/order/list">Đơn hàng</a>
+                        </li>
+                    </c:if>
                 </ul>
                 <ul class="navbar-nav">
                     <c:choose>
@@ -42,8 +49,8 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/order/list">Đơn hàng của tôi</a></li>
-                                    <li><a class="dropdown-item active" href="product/my-products">Sản phẩm của tôi</a></li>
-                                    <li><a class="dropdown-item" href="sell-product.jsp">Đăng bán</a></li>
+                                    <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/product/my-products">Sản phẩm của tôi</a></li>
+                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/sell-product.jsp">Đăng bán</a></li>
                                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/profile">Hồ sơ</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/logout">Đăng xuất</a></li>
@@ -52,7 +59,7 @@
                         </c:when>
                         <c:otherwise>
                             <li class="nav-item">
-                                <a class="nav-link" href="login.jsp">Đăng nhập</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">Đăng nhập</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -69,7 +76,7 @@
                     <h2>
                         <i class="fas fa-box me-2"></i>Sản phẩm của tôi
                     </h2>
-                    <a href="sell-product.jsp" class="btn btn-success">
+                    <a href="${pageContext.request.contextPath}/sell-product.jsp" class="btn btn-success">
                         <i class="fas fa-plus me-2"></i>Đăng bán mới
                     </a>
                 </div>
@@ -93,7 +100,7 @@
                         <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
                         <h4 class="text-muted">Chưa có sản phẩm nào</h4>
                         <p class="text-muted">Bạn chưa đăng bán sản phẩm nào. Hãy bắt đầu đăng bán ngay!</p>
-                        <a href="sell-product.jsp" class="btn btn-primary">Đăng bán sản phẩm</a>
+                        <a href="${pageContext.request.contextPath}/sell-product.jsp" class="btn btn-primary">Đăng bán sản phẩm</a>
                     </div>
                 </c:if>
                 
@@ -144,10 +151,10 @@
                                     </div>
                                     <div class="card-footer">
                                         <div class="btn-group w-100" role="group">
-                                            <a href="product/view?id=${product.id}" class="btn btn-outline-primary btn-sm">
+                                            <a href="${pageContext.request.contextPath}/product/view?id=${product.id}" class="btn btn-outline-primary btn-sm">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="product/edit?id=${product.id}" class="btn btn-outline-warning btn-sm">
+                                            <a href="${pageContext.request.contextPath}/product/edit?id=${product.id}" class="btn btn-outline-warning btn-sm">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <button onclick="deleteProduct(${product.id})" class="btn btn-outline-danger btn-sm">
@@ -247,4 +254,5 @@
         }
     </script>
 </body>
+</html> 
 </html> 

@@ -44,15 +44,8 @@ public class UserController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/user/login");
             }
         } else if (pathInfo.equals("/admin/users")) {
-            HttpSession session = request.getSession();
-            User currentUser = (User) session.getAttribute("user");
-            if (currentUser != null && userBO.isAdmin(currentUser)) {
-                List<User> users = userBO.getAllUsers();
-                request.setAttribute("users", users);
-                request.getRequestDispatcher("/admin/users.jsp").forward(request, response);
-            } else {
-                response.sendRedirect(request.getContextPath() + "/user/login");
-            }
+            // Redirect to AdminController
+            response.sendRedirect(request.getContextPath() + "/admin/users");
         }
     }
     
@@ -69,7 +62,13 @@ public class UserController extends HttpServlet {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                response.sendRedirect(request.getContextPath() + "/");
+                
+                // Redirect admin to dashboard, customer to home page
+                if ("admin".equals(user.getRole())) {
+                    response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/");
+                }
             } else {
                 request.setAttribute("error", "Invalid username or password");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);

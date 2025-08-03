@@ -79,7 +79,16 @@ public class ProductDAO {
     
     public List<Product> searchProducts(String keyword) {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM products WHERE name LIKE ? OR brand LIKE ? OR description LIKE ?";
+        
+        // Validate keyword
+        if (keyword == null || keyword.trim().isEmpty()) {
+            // If keyword is empty, return all approved products
+            return getAllProducts();
+        }
+        
+        // Clean and prepare keyword
+        keyword = keyword.trim();
+        String sql = "SELECT * FROM products WHERE status = 'approved' AND (name LIKE ? OR brand LIKE ? OR description LIKE ?) ORDER BY created_date DESC";
         
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -92,27 +101,38 @@ public class ProductDAO {
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
-                Product product = new Product();
-                product.setId(rs.getInt("id"));
-                product.setName(rs.getString("name"));
-                product.setBrand(rs.getString("brand"));
-                product.setDescription(rs.getString("description"));
-                product.setPrice(rs.getDouble("price"));
-                product.setStock(rs.getInt("stock"));
-                product.setImage(rs.getString("image"));
-                product.setCategory(rs.getString("category"));
-                product.setSellerId(rs.getInt("seller_id"));
-                product.setCondition(rs.getString("condition"));
-                product.setWarranty(rs.getString("warranty"));
-                product.setLocation(rs.getString("location"));
-                product.setContactInfo(rs.getString("contact_info"));
-                product.setCreatedDate(rs.getTimestamp("created_date"));
-                product.setUpdatedDate(rs.getTimestamp("updated_date"));
-                products.add(product);
+                try {
+                    Product product = new Product();
+                    product.setId(rs.getInt("id"));
+                    product.setName(rs.getString("name"));
+                    product.setBrand(rs.getString("brand"));
+                    product.setDescription(rs.getString("description"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setStock(rs.getInt("stock"));
+                    product.setImage(rs.getString("image"));
+                    product.setCategory(rs.getString("category"));
+                    product.setSellerId(rs.getInt("seller_id"));
+                    product.setCondition(rs.getString("condition"));
+                    product.setWarranty(rs.getString("warranty"));
+                    product.setLocation(rs.getString("location"));
+                    product.setContactInfo(rs.getString("contact_info"));
+                    product.setStatus(rs.getString("status"));
+                    product.setCreatedDate(rs.getTimestamp("created_date"));
+                    product.setUpdatedDate(rs.getTimestamp("updated_date"));
+                    products.add(product);
+                } catch (SQLException e) {
+                    System.err.println("Error reading product data: " + e.getMessage());
+                    // Continue with next product
+                }
             }
         } catch (SQLException e) {
+            System.err.println("Database error in searchProducts: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Unexpected error in searchProducts: " + e.getMessage());
             e.printStackTrace();
         }
+        
         return products;
     }
     

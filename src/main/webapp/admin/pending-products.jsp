@@ -22,14 +22,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
-                    </li>
-                </ul>
+                                 <ul class="navbar-nav me-auto">
+                     <li class="nav-item">
+                         <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
+                     </li>
+                 </ul>
                 <ul class="navbar-nav">
                     <c:if test="${not empty sessionScope.user && sessionScope.user.role == 'admin'}">
                         <li class="nav-item dropdown">
@@ -37,9 +40,11 @@
                                 <i class="fas fa-user me-1"></i>${sessionScope.user.fullName}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/products.jsp">Quản lý sản phẩm</a></li>
-                                <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/admin/pending-products.jsp">Duyệt sản phẩm</a></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users.jsp">Quản lý người dùng</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/products">Quản lý sản phẩm</a></li>
+                                <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/admin/pending-products">Duyệt sản phẩm</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">Quản lý người dùng</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/orders">Quản lý đơn hàng</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/logout">Đăng xuất</a></li>
                             </ul>

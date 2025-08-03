@@ -85,7 +85,7 @@
                         <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
                         <h4 class="text-muted">Giỏ hàng trống</h4>
                         <p class="text-muted">Không có sản phẩm nào để thanh toán.</p>
-                        <a href="product-list.jsp" class="btn btn-primary">Mua sắm ngay</a>
+                        <a href="${pageContext.request.contextPath}/product-list.jsp" class="btn btn-primary">Mua sắm ngay</a>
                     </div>
                 </c:if>
                 

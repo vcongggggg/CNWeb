@@ -10,8 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 
 @WebServlet("/product/*")
+@javax.servlet.annotation.MultipartConfig(
+    fileSizeThreshold = 1024 * 1024, // 1 MB
+    maxFileSize = 1024 * 1024 * 10, // 10 MB
+    maxRequestSize = 1024 * 1024 * 50 // 50 MB
+)
 public class ProductController extends HttpServlet {
     private ProductBO productBO;
     
@@ -57,11 +63,39 @@ public class ProductController extends HttpServlet {
             }
         } else if (pathInfo.equals("/search")) {
             // Search products
-            String keyword = request.getParameter("keyword");
-            List<Product> products = productBO.searchProducts(keyword);
-            request.setAttribute("products", products);
-            request.setAttribute("keyword", keyword);
-            request.getRequestDispatcher("/product-search.jsp").forward(request, response);
+            try {
+                String keyword = request.getParameter("keyword");
+                
+                // Clean and validate keyword
+                if (keyword == null) {
+                    keyword = "";
+                }
+                keyword = keyword.trim();
+                
+                // Search products
+                List<Product> products = productBO.searchProducts(keyword);
+                
+                // Set attributes for JSP
+                request.setAttribute("products", products);
+                request.setAttribute("keyword", keyword);
+                request.setAttribute("searchPerformed", true);
+                
+                // Forward to search results page
+                request.getRequestDispatcher("/product-search.jsp").forward(request, response);
+                
+            } catch (Exception e) {
+                System.err.println("Error in ProductController search: " + e.getMessage());
+                e.printStackTrace();
+                
+                // Set error message and empty results
+                request.setAttribute("error", "Có lỗi xảy ra khi tìm kiếm: " + e.getMessage());
+                request.setAttribute("products", new ArrayList<>());
+                request.setAttribute("keyword", request.getParameter("keyword"));
+                request.setAttribute("searchPerformed", true);
+                
+                // Forward to search page with error
+                request.getRequestDispatcher("/product-search.jsp").forward(request, response);
+            }
         } else if (pathInfo.equals("/category")) {
             // Filter by category
             String category = request.getParameter("category");
@@ -100,14 +134,48 @@ public class ProductController extends HttpServlet {
                 return;
             }
             
+            // Handle file upload
+            String imageUrl = "https://via.placeholder.com/300x300?text=No+Image";
+            
+            // Check if image file was uploaded
+            javax.servlet.http.Part filePart = request.getPart("image");
+            if (filePart != null && filePart.getSize() > 0) {
+                String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
+                String uploadPath = getServletContext().getRealPath("/uploads/");
+                
+                // Create uploads directory if it doesn't exist
+                java.io.File uploadDir = new java.io.File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+                
+                // Save file
+                java.io.File file = new java.io.File(uploadPath + fileName);
+                try (java.io.InputStream input = filePart.getInputStream();
+                     java.io.FileOutputStream output = new java.io.FileOutputStream(file)) {
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = input.read(buffer)) > 0) {
+                        output.write(buffer, 0, length);
+                    }
+                }
+                
+                imageUrl = request.getContextPath() + "/uploads/" + fileName;
+            } else {
+                // Use imageUrl parameter if no file uploaded
+                String urlParam = request.getParameter("imageUrl");
+                if (urlParam != null && !urlParam.trim().isEmpty()) {
+                    imageUrl = urlParam;
+                }
+            }
+            
             Product product = new Product();
             product.setName(request.getParameter("name"));
             product.setBrand(request.getParameter("brand"));
             product.setDescription(request.getParameter("description"));
             product.setPrice(Double.parseDouble(request.getParameter("price")));
             product.setStock(Integer.parseInt(request.getParameter("stock")));
-            product.setImage(request.getParameter("imageUrl") != null && !request.getParameter("imageUrl").isEmpty() ? 
-                           request.getParameter("imageUrl") : "https://via.placeholder.com/300x300?text=No+Image");
+            product.setImage(imageUrl);
             product.setCategory("Điện thoại"); // Default category since we only sell phones
             product.setCondition(request.getParameter("condition"));
             product.setWarranty(request.getParameter("warranty"));
@@ -115,11 +183,17 @@ public class ProductController extends HttpServlet {
             product.setContactInfo(request.getParameter("contactInfo"));
             product.setStatus("pending"); // Set status to pending for approval
             
-            boolean success = productBO.addProductBySeller(product, user.getId());
-            if (success) {
-                response.sendRedirect(request.getContextPath() + "/product/my-products?success=true");
-            } else {
-                request.setAttribute("error", "Không thể đăng bán sản phẩm. Vui lòng kiểm tra lại thông tin.");
+            try {
+                boolean success = productBO.addProductBySeller(product, user.getId());
+                if (success) {
+                    response.sendRedirect(request.getContextPath() + "/product/my-products?success=true");
+                } else {
+                    request.setAttribute("error", "Không thể đăng bán sản phẩm. Vui lòng kiểm tra lại thông tin.");
+                    request.getRequestDispatcher("/sell-product.jsp").forward(request, response);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("error", "Có lỗi xảy ra: " + e.getMessage());
                 request.getRequestDispatcher("/sell-product.jsp").forward(request, response);
             }
         } else if (pathInfo.equals("/update")) {

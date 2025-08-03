@@ -90,4 +90,15 @@ public class UserBO {
         }
         return userDAO.changePassword(userId, newPassword);
     }
+    
+    public boolean updateUserRole(int userId, String role) {
+        if (role == null || role.trim().isEmpty()) {
+            return false;
+        }
+        // Validate role
+        if (!"admin".equals(role) && !"customer".equals(role)) {
+            return false;
+        }
+        return userDAO.updateUserRole(userId, role);
+    }
 } 

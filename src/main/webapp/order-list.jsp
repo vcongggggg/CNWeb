@@ -59,7 +59,7 @@
                         </c:when>
                         <c:otherwise>
                             <li class="nav-item">
-                                <a class="nav-link" href="login.jsp">Đăng nhập</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">Đăng nhập</a>
                             </li>
                         </c:otherwise>
                     </c:choose>

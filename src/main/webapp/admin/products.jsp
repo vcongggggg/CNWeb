@@ -29,14 +29,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-cog me-1"></i>Quản lý
                         </a>
                         <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users.jsp">Quản lý người dùng</a></li>
-                        <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/admin/products.jsp">Quản lý sản phẩm</a></li>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/orders.jsp">Quản lý đơn hàng</a></li>
+                            <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/admin/products">Quản lý sản phẩm</a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/pending-products">Duyệt sản phẩm</a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">Quản lý người dùng</a></li>
                         </ul>
                     </li>
                 </ul>

@@ -4,6 +4,7 @@ import com.mobile.dao.ProductDAO;
 import com.mobile.model.Product;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class ProductBO {
     private ProductDAO productDAO;
@@ -29,7 +30,25 @@ public class ProductBO {
     }
     
     public List<Product> searchProducts(String keyword) {
-        return productDAO.searchProducts(keyword);
+        try {
+            // Clean and validate keyword
+            if (keyword == null) {
+                keyword = "";
+            }
+            keyword = keyword.trim();
+            
+            // If keyword is empty, return all approved products
+            if (keyword.isEmpty()) {
+                return getAllProducts();
+            }
+            
+            return productDAO.searchProducts(keyword);
+        } catch (Exception e) {
+            System.err.println("Error in ProductBO.searchProducts: " + e.getMessage());
+            e.printStackTrace();
+            // Return empty list instead of throwing exception
+            return new ArrayList<>();
+        }
     }
     
     public boolean addProduct(Product product) {

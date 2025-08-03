@@ -175,7 +175,7 @@
                                     <c:if test="${empty sessionScope.user}">
                                         <div class="alert alert-warning">
                                             <i class="fas fa-exclamation-triangle me-2"></i>
-                                            Vui lòng <a href="login.jsp">đăng nhập</a> để thanh toán
+                                            Vui lòng <a href="${pageContext.request.contextPath}/login.jsp">đăng nhập</a> để thanh toán
                                         </div>
                                     </c:if>
                                     
