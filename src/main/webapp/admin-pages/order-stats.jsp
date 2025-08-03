@@ -23,10 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
@@ -113,11 +110,34 @@
                                 <h5><i class="fas fa-chart-line me-2"></i>Thống kê theo tháng</h5>
                             </div>
                             <div class="card-body">
-                                <div class="text-center text-muted">
-                                    <i class="fas fa-chart-line fa-3x mb-3"></i>
-                                    <p>Biểu đồ thống kê theo tháng</p>
-                                    <small>Chức năng này sẽ được phát triển thêm</small>
-                                </div>
+                                <c:if test="${not empty monthlyStats.monthly_data}">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tháng/Năm</th>
+                                                    <th>Số đơn hàng</th>
+                                                    <th>Doanh thu</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="month" items="${monthlyStats.monthly_data}">
+                                                    <tr>
+                                                        <td>${month.month}/${month.year}</td>
+                                                        <td>${month.total_orders}</td>
+                                                        <td><fmt:formatNumber value="${month.total_revenue}" type="currency" currencySymbol="VNĐ"/></td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </c:if>
+                                <c:if test="${empty monthlyStats.monthly_data}">
+                                    <div class="text-center text-muted">
+                                        <i class="fas fa-chart-line fa-3x mb-3"></i>
+                                        <p>Chưa có dữ liệu thống kê theo tháng</p>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -145,6 +165,27 @@
                                             </div>
                                             <p class="mt-2 mb-0">Đang xử lý</p>
                                             <small class="text-muted">${pendingOrders}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="text-center">
+                                            <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                <i class="fas fa-shipping-fast"></i>
+                                            </div>
+                                            <p class="mt-2 mb-0">Đã gửi hàng</p>
+                                            <small class="text-muted">${shippedOrders}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-center">
+                                            <div class="bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                <i class="fas fa-times"></i>
+                                            </div>
+                                            <p class="mt-2 mb-0">Đã hủy</p>
+                                            <small class="text-muted">${cancelledOrders}</small>
                                         </div>
                                     </div>
                                 </div>

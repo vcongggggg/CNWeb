@@ -97,9 +97,34 @@ public class OrderBO {
     public double getTotalRevenue() {
         List<Order> orders = orderDAO.getAllOrders();
         return orders.stream()
-                .filter(order -> "completed".equals(order.getStatus()))
+                .filter(order -> "delivered".equals(order.getStatus()) || "completed".equals(order.getStatus()))
                 .mapToDouble(Order::getTotalAmount)
                 .sum();
+    }
+    
+    public int getCompletedOrders() {
+        List<Order> orders = orderDAO.getAllOrders();
+        return (int) orders.stream()
+                .filter(order -> "delivered".equals(order.getStatus()) || "completed".equals(order.getStatus()))
+                .count();
+    }
+    
+    public int getShippedOrders() {
+        List<Order> orders = orderDAO.getAllOrders();
+        return (int) orders.stream()
+                .filter(order -> "shipped".equals(order.getStatus()))
+                .count();
+    }
+    
+    public int getCancelledOrders() {
+        List<Order> orders = orderDAO.getAllOrders();
+        return (int) orders.stream()
+                .filter(order -> "cancelled".equals(order.getStatus()))
+                .count();
+    }
+    
+    public java.util.Map<String, Object> getMonthlyStats() {
+        return orderDAO.getMonthlyStats();
     }
 
     public int getTotalOrders() {

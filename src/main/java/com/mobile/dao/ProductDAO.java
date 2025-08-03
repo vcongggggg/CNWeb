@@ -339,22 +339,43 @@ public class ProductDAO {
     
     public java.util.Map<String, Object> getProductStats() {
         java.util.Map<String, Object> stats = new java.util.HashMap<>();
-        String sql = "SELECT category, COUNT(*) as total_products, AVG(price) as avg_price, SUM(stock) as total_stock FROM products GROUP BY category";
         
-        try (Connection conn = DatabaseUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            // Get category statistics
+            String categorySql = "SELECT category, COUNT(*) as total_products, AVG(price) as avg_price, SUM(stock) as total_stock FROM products WHERE status = 'approved' GROUP BY category";
+            PreparedStatement categoryPs = conn.prepareStatement(categorySql);
+            ResultSet categoryRs = categoryPs.executeQuery();
             
             java.util.List<java.util.Map<String, Object>> categoryStats = new java.util.ArrayList<>();
-            while (rs.next()) {
+            int totalProducts = 0;
+            int totalStock = 0;
+            double totalPrice = 0;
+            int categoryCount = 0;
+            
+            while (categoryRs.next()) {
                 java.util.Map<String, Object> category = new java.util.HashMap<>();
-                category.put("category", rs.getString("category"));
-                category.put("total_products", rs.getInt("total_products"));
-                category.put("avg_price", rs.getDouble("avg_price"));
-                category.put("total_stock", rs.getInt("total_stock"));
+                category.put("category", categoryRs.getString("category"));
+                category.put("total_products", categoryRs.getInt("total_products"));
+                category.put("avg_price", categoryRs.getDouble("avg_price"));
+                category.put("total_stock", categoryRs.getInt("total_stock"));
                 categoryStats.add(category);
+                
+                // Calculate totals
+                totalProducts += categoryRs.getInt("total_products");
+                totalStock += categoryRs.getInt("total_stock");
+                totalPrice += categoryRs.getDouble("avg_price") * categoryRs.getInt("total_products");
+                categoryCount++;
             }
+            
+            // Calculate overall statistics
+            double avgPrice = totalProducts > 0 ? totalPrice / totalProducts : 0;
+            
             stats.put("category_stats", categoryStats);
+            stats.put("total_products", totalProducts);
+            stats.put("total_categories", categoryCount);
+            stats.put("total_stock", totalStock);
+            stats.put("avg_price", avgPrice);
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }

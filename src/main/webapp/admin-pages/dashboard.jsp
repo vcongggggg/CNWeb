@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
@@ -24,13 +24,23 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                                    <ul class="navbar-nav me-auto">
                        <li class="nav-item">
-                           <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
+                           <a class="nav-link active" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
                        </li>
-                       <li class="nav-item">
-                           <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
-                       </li>
-                       <li class="nav-item">
-                           <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
+                       <li class="nav-item dropdown">
+                           <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                               <i class="fas fa-cog me-1"></i>Quản lý
+                           </a>
+                           <ul class="dropdown-menu">
+                               <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
+                               <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/products">Quản lý sản phẩm</a></li>
+                               <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/pending-products">Duyệt sản phẩm</a></li>
+                               <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">Quản lý người dùng</a></li>
+                               <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/orders">Quản lý đơn hàng</a></li>
+                               <li><hr class="dropdown-divider"></li>
+                               <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/product-stats">Thống kê sản phẩm</a></li>
+                               <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/order-stats">Thống kê đơn hàng</a></li>
+                               <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/category-stats">Thống kê danh mục</a></li>
+                           </ul>
                        </li>
                    </ul>
                 

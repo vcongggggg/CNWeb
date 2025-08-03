@@ -254,4 +254,32 @@ public class OrderDAO {
         public String getProductImage() { return productImage; }
         public void setProductImage(String productImage) { this.productImage = productImage; }
     }
+    
+    public java.util.Map<String, Object> getMonthlyStats() {
+        java.util.Map<String, Object> stats = new java.util.HashMap<>();
+        String sql = "SELECT MONTH(order_date) as month, YEAR(order_date) as year, " +
+                    "COUNT(*) as total_orders, SUM(total_amount) as total_revenue " +
+                    "FROM orders WHERE status IN ('delivered', 'completed') " +
+                    "GROUP BY YEAR(order_date), MONTH(order_date) " +
+                    "ORDER BY year DESC, month DESC";
+        
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            java.util.List<java.util.Map<String, Object>> monthlyData = new java.util.ArrayList<>();
+            while (rs.next()) {
+                java.util.Map<String, Object> month = new java.util.HashMap<>();
+                month.put("month", rs.getInt("month"));
+                month.put("year", rs.getInt("year"));
+                month.put("total_orders", rs.getInt("total_orders"));
+                month.put("total_revenue", rs.getDouble("total_revenue"));
+                monthlyData.add(month);
+            }
+            stats.put("monthly_data", monthlyData);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stats;
+    }
 } 

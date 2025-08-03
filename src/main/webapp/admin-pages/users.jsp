@@ -23,10 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
@@ -73,23 +70,25 @@
         </div>
 
         <!-- Search and Filter -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <form class="d-flex" method="get">
-                    <input class="form-control me-2" type="text" name="search" placeholder="Tìm kiếm người dùng..." value="${param.search}">
-                    <button class="btn btn-outline-primary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+        <form method="get" action="${pageContext.request.contextPath}/admin/users">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="d-flex">
+                        <input class="form-control me-2" type="text" name="search" placeholder="Tìm kiếm người dùng..." value="${param.search}">
+                        <button class="btn btn-outline-primary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select" name="role" onchange="this.form.submit()">
+                        <option value="">Tất cả vai trò</option>
+                        <option value="admin" ${param.role == 'admin' ? 'selected' : ''}>Admin</option>
+                        <option value="customer" ${param.role == 'customer' ? 'selected' : ''}>Khách hàng</option>
+                    </select>
+                </div>
             </div>
-            <div class="col-md-6">
-                <select class="form-select" name="role" onchange="this.form.submit()">
-                    <option value="">Tất cả vai trò</option>
-                    <option value="admin" ${param.role == 'admin' ? 'selected' : ''}>Admin</option>
-                    <option value="customer" ${param.role == 'customer' ? 'selected' : ''}>Khách hàng</option>
-                </select>
-            </div>
-        </div>
+        </form>
 
         <!-- Users Table -->
         <div class="table-responsive">
@@ -102,7 +101,6 @@
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Vai trò</th>
-                        <th>Ngày tạo</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
@@ -119,12 +117,11 @@
                                     ${user.role == 'admin' ? 'Admin' : 'Khách hàng'}
                                 </span>
                             </td>
-                            <td>${user.createdAt}</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-primary" onclick="editUser(${user.id})">
+                                <button class="btn btn-sm btn-outline-primary" onclick="editUser('${user.id}')">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteUser('${user.id}')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -162,7 +159,7 @@
                     <h5 class="modal-title">Thêm người dùng mới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form action="../user/admin/add" method="post">
+                <form action="${pageContext.request.contextPath}/admin/add-user" method="post">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="username" class="form-label">Username *</label>
@@ -213,7 +210,7 @@
                     <h5 class="modal-title">Chỉnh sửa người dùng</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form action="../user/admin/update" method="post">
+                <form action="${pageContext.request.contextPath}/admin/update-user" method="post">
                     <input type="hidden" id="editUserId" name="id">
                     <div class="modal-body">
                         <div class="mb-3">
@@ -257,7 +254,7 @@
     <script>
         function editUser(userId) {
             // Load user data and show edit modal
-            fetch(`../user/admin/get?id=${userId}`)
+            fetch('${pageContext.request.contextPath}/admin/get-user?id=' + userId)
                 .then(response => response.json())
                 .then(user => {
                     document.getElementById('editUserId').value = user.id;
@@ -269,18 +266,26 @@
                     document.getElementById('editRole').value = user.role;
                     
                     new bootstrap.Modal(document.getElementById('editUserModal')).show();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi tải thông tin người dùng');
                 });
         }
 
         function deleteUser(userId) {
             if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
-                fetch(`../user/admin/delete?id=${userId}`, {method: 'POST'})
+                fetch('${pageContext.request.contextPath}/admin/delete-user?id=' + userId, {method: 'POST'})
                     .then(response => {
                         if (response.ok) {
                             location.reload();
                         } else {
                             alert('Có lỗi xảy ra khi xóa người dùng');
                         }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Có lỗi xảy ra khi xóa người dùng');
                     });
             }
         }

@@ -23,10 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
@@ -145,7 +142,9 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center">
-                                            <h3 class="text-info">${productStats.avg_price}</h3>
+                                            <h3 class="text-info">
+                                                <fmt:formatNumber value="${productStats.avg_price}" type="currency" currencySymbol="VNĐ"/>
+                                            </h3>
                                             <p class="text-muted">Giá trung bình</p>
                                         </div>
                                     </div>

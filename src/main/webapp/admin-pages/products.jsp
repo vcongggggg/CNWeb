@@ -24,12 +24,6 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item dropdown">
@@ -67,7 +61,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2><i class="fas fa-box me-2"></i>Quản lý sản phẩm</h2>
             <div>
-                <a href="${pageContext.request.contextPath}/admin/pending-products.jsp" class="btn btn-warning me-2">
+                                    <a href="${pageContext.request.contextPath}/admin/pending-products" class="btn btn-warning me-2">
                     <i class="fas fa-clock me-2"></i>Duyệt sản phẩm
                 </a>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
@@ -77,42 +71,35 @@
         </div>
 
         <!-- Search and Filter -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <form class="d-flex" method="get">
-                    <input class="form-control me-2" type="text" name="search" placeholder="Tìm kiếm sản phẩm..." value="${param.search}">
-                    <button class="btn btn-outline-primary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+        <form method="get" action="${pageContext.request.contextPath}/admin/products">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="d-flex">
+                        <input class="form-control me-2" type="text" name="search" placeholder="Tìm kiếm sản phẩm..." value="${param.search}">
+                        <button class="btn btn-outline-primary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="brand" onchange="this.form.submit()">
+                        <option value="">Tất cả thương hiệu</option>
+                        <option value="Apple" ${param.brand == 'Apple' ? 'selected' : ''}>Apple</option>
+                        <option value="Samsung" ${param.brand == 'Samsung' ? 'selected' : ''}>Samsung</option>
+                        <option value="Xiaomi" ${param.brand == 'Xiaomi' ? 'selected' : ''}>Xiaomi</option>
+                        <option value="OPPO" ${param.brand == 'OPPO' ? 'selected' : ''}>OPPO</option>
+                        <option value="Vivo" ${param.brand == 'Vivo' ? 'selected' : ''}>Vivo</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select" name="status" onchange="this.form.submit()">
+                        <option value="">Tất cả</option>
+                        <option value="in_stock" ${param.status == 'in_stock' ? 'selected' : ''}>Còn hàng</option>
+                        <option value="out_of_stock" ${param.status == 'out_of_stock' ? 'selected' : ''}>Hết hàng</option>
+                    </select>
+                </div>
             </div>
-            <div class="col-md-3">
-                <select class="form-select" name="category" onchange="this.form.submit()">
-                    <option value="">Tất cả danh mục</option>
-                    <option value="smartphone" ${param.category == 'smartphone' ? 'selected' : ''}>Smartphone</option>
-                    <option value="tablet" ${param.category == 'tablet' ? 'selected' : ''}>Tablet</option>
-                    <option value="laptop" ${param.category == 'laptop' ? 'selected' : ''}>Laptop</option>
-                    <option value="accessory" ${param.category == 'accessory' ? 'selected' : ''}>Phụ kiện</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select class="form-select" name="brand" onchange="this.form.submit()">
-                    <option value="">Tất cả thương hiệu</option>
-                    <option value="Apple" ${param.brand == 'Apple' ? 'selected' : ''}>Apple</option>
-                    <option value="Samsung" ${param.brand == 'Samsung' ? 'selected' : ''}>Samsung</option>
-                    <option value="Xiaomi" ${param.brand == 'Xiaomi' ? 'selected' : ''}>Xiaomi</option>
-                    <option value="OPPO" ${param.brand == 'OPPO' ? 'selected' : ''}>OPPO</option>
-                    <option value="Vivo" ${param.brand == 'Vivo' ? 'selected' : ''}>Vivo</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select class="form-select" name="status" onchange="this.form.submit()">
-                    <option value="">Tất cả</option>
-                    <option value="in_stock" ${param.status == 'in_stock' ? 'selected' : ''}>Còn hàng</option>
-                    <option value="out_of_stock" ${param.status == 'out_of_stock' ? 'selected' : ''}>Hết hàng</option>
-                </select>
-            </div>
-        </div>
+        </form>
 
         <!-- Products Table -->
         <div class="table-responsive">

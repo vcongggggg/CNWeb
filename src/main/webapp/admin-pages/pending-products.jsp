@@ -24,12 +24,6 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                                  <ul class="navbar-nav me-auto">
                      <li class="nav-item">
-                         <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
-                     </li>
-                     <li class="nav-item">
-                         <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
-                     </li>
-                     <li class="nav-item">
                          <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
                      </li>
                  </ul>
@@ -61,7 +55,7 @@
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2><i class="fas fa-clock me-2"></i>Sản phẩm chờ duyệt</h2>
-                    <a href="${pageContext.request.contextPath}/admin/products.jsp" class="btn btn-outline-secondary">
+                    <a href="${pageContext.request.contextPath}/admin/products" class="btn btn-outline-secondary">
                         <i class="fas fa-arrow-left me-2"></i>Quay lại
                     </a>
                 </div>

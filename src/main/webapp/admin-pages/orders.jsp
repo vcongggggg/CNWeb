@@ -23,10 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/product-list.jsp">Sản phẩm</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
@@ -76,29 +73,31 @@
                 </div>
 
                 <!-- Filter Section -->
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <select class="form-select" id="statusFilter">
-                            <option value="">Tất cả trạng thái</option>
-                            <option value="pending">Chờ xử lý</option>
-                            <option value="processing">Đang xử lý</option>
-                            <option value="shipped">Đã gửi hàng</option>
-                            <option value="delivered">Đã giao hàng</option>
-                            <option value="cancelled">Đã hủy</option>
-                        </select>
+                <form method="get" action="${pageContext.request.contextPath}/admin/orders">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <select class="form-select" name="status" onchange="this.form.submit()">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="pending" ${param.status == 'pending' ? 'selected' : ''}>Chờ xử lý</option>
+                                <option value="processing" ${param.status == 'processing' ? 'selected' : ''}>Đang xử lý</option>
+                                <option value="shipped" ${param.status == 'shipped' ? 'selected' : ''}>Đã gửi hàng</option>
+                                <option value="delivered" ${param.status == 'delivered' ? 'selected' : ''}>Đã giao hàng</option>
+                                <option value="cancelled" ${param.status == 'cancelled' ? 'selected' : ''}>Đã hủy</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" class="form-control" name="date" value="${param.date}">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="search" placeholder="Tìm kiếm đơn hàng..." value="${param.search}">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>Lọc
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <input type="date" class="form-control" id="dateFilter" placeholder="Lọc theo ngày">
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="searchFilter" placeholder="Tìm kiếm đơn hàng...">
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-primary" onclick="filterOrders()">
-                            <i class="fas fa-search me-2"></i>Lọc
-                        </button>
-                    </div>
-                </div>
+                </form>
 
                 <!-- Orders Table -->
                 <div class="table-responsive">
@@ -106,7 +105,6 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Mã đơn hàng</th>
-                                <th>Khách hàng</th>
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
                                 <th>Ngày đặt</th>
@@ -118,12 +116,6 @@
                                 <tr>
                                     <td>
                                         <strong>#${order.id}</strong>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong>${order.customerName}</strong><br>
-                                            <small class="text-muted">${order.customerPhone}</small>
-                                        </div>
                                     </td>
                                     <td>
                                         <strong class="text-danger">
@@ -204,15 +196,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function filterOrders() {
-            const status = document.getElementById('statusFilter').value;
-            const date = document.getElementById('dateFilter').value;
-            const search = document.getElementById('searchFilter').value;
-            
-            // Implement filter logic here
-            console.log('Filtering orders:', { status, date, search });
-        }
-        
         function updateStatus(orderId, status) {
             if (confirm('Bạn có chắc muốn cập nhật trạng thái đơn hàng này?')) {
                 // Implement status update logic here
