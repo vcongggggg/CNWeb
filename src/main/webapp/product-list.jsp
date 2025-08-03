@@ -104,8 +104,6 @@
                                                                 <h6 class="card-title">${product.name}</h6>
                                                                 <p class="card-text text-muted small">${product.brand}
                                                                 </p>
-                                                                <p class="card-text flex-grow-1">${product.description}
-                                                                </p>
                                                                 <div class="mt-auto">
                                                                     <div
                                                                         class="d-flex justify-content-between align-items-center mb-2">
