@@ -75,6 +75,14 @@
 
     <!-- Main Content -->
     <div class="container mt-4">
+        <c:if test="${not empty param.error && param.error == 'own_product'}">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>Không thể mua sản phẩm của chính mình!</strong> Bạn không thể thêm sản phẩm do chính mình đăng bán vào giỏ hàng.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </c:if>
+        
         <c:if test="${not empty product}">
             <div class="row">
                 <!-- Product Image -->
@@ -126,20 +134,35 @@
                     </div>
                     
                     <c:if test="${not empty sessionScope.user}">
-                        <form action="${pageContext.request.contextPath}/order/add-to-cart" method="post" class="mb-3">
-                            <input type="hidden" name="productId" value="${product.id}">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="quantity" class="form-label">Số lượng:</label>
-                                    <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="${product.stock}">
+                        <c:choose>
+                            <c:when test="${sessionScope.user.id == product.sellerId}">
+                                <div class="alert alert-warning mb-3">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>Lưu ý:</strong> Bạn không thể mua sản phẩm của chính mình.
                                 </div>
-                                <div class="col-md-8">
-                                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
-                                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
-                                    </button>
+                                <div class="d-grid gap-2">
+                                    <a href="${pageContext.request.contextPath}/seller/products" class="btn btn-outline-primary">
+                                        <i class="fas fa-box me-2"></i>Quản lý sản phẩm của tôi
+                                    </a>
                                 </div>
-                            </div>
-                        </form>
+                            </c:when>
+                            <c:otherwise>
+                                <form action="${pageContext.request.contextPath}/order/add-to-cart" method="post" class="mb-3">
+                                    <input type="hidden" name="productId" value="${product.id}">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="quantity" class="form-label">Số lượng:</label>
+                                            <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="${product.stock}">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
+                                                <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </c:otherwise>
+                        </c:choose>
                     </c:if>
                     
                     <div class="d-grid gap-2">

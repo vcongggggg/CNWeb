@@ -126,6 +126,23 @@ public class OrderBO {
     public java.util.Map<String, Object> getMonthlyStats() {
         return orderDAO.getMonthlyStats();
     }
+    
+    public List<Order> getOrdersBySellerId(int sellerId) {
+        return orderDAO.getOrdersBySellerId(sellerId);
+    }
+    
+    public boolean restoreStockForOrder(int orderId) {
+        try {
+            List<OrderDAO.OrderItem> items = orderDAO.getOrderItems(orderId);
+            for (OrderDAO.OrderItem item : items) {
+                productDAO.restoreStockAfterCancellation(item.getProductId(), item.getQuantity());
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public int getTotalOrders() {
         return orderDAO.getAllOrders().size();

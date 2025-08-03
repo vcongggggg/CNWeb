@@ -282,4 +282,28 @@ public class OrderDAO {
         }
         return stats;
     }
+    
+    public List<Order> getOrdersBySellerId(int sellerId) {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT DISTINCT o.* FROM orders o " +
+                    "JOIN order_items oi ON o.id = oi.order_id " +
+                    "JOIN products p ON oi.product_id = p.id " +
+                    "WHERE p.seller_id = ? ORDER BY o.order_date DESC";
+        
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, sellerId);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Order order = mapResultSetToOrder(rs);
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+    
 } 

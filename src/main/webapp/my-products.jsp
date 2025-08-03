@@ -49,7 +49,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/order/list">Đơn hàng của tôi</a></li>
-                                    <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/product/my-products">Sản phẩm của tôi</a></li>
+                                    <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/seller/products">Sản phẩm của tôi</a></li>
                                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/sell-product.jsp">Đăng bán</a></li>
                                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/profile">Hồ sơ</a></li>
                                     <li><hr class="dropdown-divider"></li>
@@ -76,9 +76,14 @@
                     <h2>
                         <i class="fas fa-box me-2"></i>Sản phẩm của tôi
                     </h2>
-                    <a href="${pageContext.request.contextPath}/sell-product.jsp" class="btn btn-success">
-                        <i class="fas fa-plus me-2"></i>Đăng bán mới
-                    </a>
+                    <div>
+                        <a href="${pageContext.request.contextPath}/seller/orders" class="btn btn-info me-2">
+                            <i class="fas fa-shopping-cart me-2"></i>Đơn hàng bán
+                        </a>
+                        <a href="${pageContext.request.contextPath}/sell-product.jsp" class="btn btn-success">
+                            <i class="fas fa-plus me-2"></i>Đăng bán mới
+                        </a>
+                    </div>
                 </div>
                 
                 <c:if test="${not empty message}">

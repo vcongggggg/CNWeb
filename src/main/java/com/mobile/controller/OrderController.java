@@ -286,6 +286,14 @@ public class OrderController extends HttpServlet {
             System.out.println("Parsed ID: " + id);
             System.out.println("Parsed Quantity: " + qty);
 
+            // Check if user is trying to buy their own product
+            Product product = productBO.getProductById(id);
+            if (product != null && product.getSellerId() == user.getId()) {
+                System.out.println("User trying to buy their own product");
+                response.sendRedirect(request.getContextPath() + "/product/view?id=" + id + "&error=own_product");
+                return;
+            }
+
             @SuppressWarnings("unchecked")
             java.util.Map<Integer, Integer> cart = (java.util.Map<Integer, Integer>) session.getAttribute("cart");
             
