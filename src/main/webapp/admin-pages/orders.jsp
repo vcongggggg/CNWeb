@@ -107,28 +107,10 @@
                                             <fmt:formatDate value="${order.orderDate}" pattern="dd/MM/yyyy HH:mm" />
                                         </td>
                                         <td>
-                                            <div class="btn-group" role="group">
-                                                <a href="${pageContext.request.contextPath}/order/view?id=${order.id}"
-                                                    class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-sm btn-outline-success"
-                                                    onclick="updateStatus('${order.id}', 'processing')">
-                                                    <i class="fas fa-play"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-sm btn-outline-info"
-                                                    onclick="updateStatus('${order.id}', 'shipped')">
-                                                    <i class="fas fa-shipping-fast"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-sm btn-outline-warning"
-                                                    onclick="updateStatus('${order.id}', 'delivered')">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-sm btn-outline-danger"
-                                                    onclick="updateStatus('${order.id}', 'cancelled')">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </div>
+                                            <a href="${pageContext.request.contextPath}/order/view?id=${order.id}"
+                                                class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye"></i> Xem đơn hàng
+                                            </a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -153,14 +135,6 @@
                 </div>
 
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-                <script>
-                    function updateStatus(orderId, status) {
-                        if (confirm('Bạn có chắc muốn cập nhật trạng thái đơn hàng này?')) {
-                            // Implement status update logic here
-                            console.log('Updating order', orderId, 'to status:', status);
-                        }
-                    }
-                </script>
             </body>
 
             </html>

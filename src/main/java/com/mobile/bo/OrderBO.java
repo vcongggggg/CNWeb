@@ -68,7 +68,7 @@ public class OrderBO {
                     if (product != null) {
                         // Add order item
                         orderDAO.addOrderItem(orderId, entry.getKey(), entry.getValue(), product.getPrice());
-                        
+
                         // Update stock using new method
                         productDAO.updateStockAfterOrder(entry.getKey(), entry.getValue());
                     }
@@ -97,40 +97,44 @@ public class OrderBO {
     public double getTotalRevenue() {
         List<Order> orders = orderDAO.getAllOrders();
         return orders.stream()
-                .filter(order -> "delivered".equals(order.getStatus()) || "completed".equals(order.getStatus()))
+                .filter(order -> "delivered".equals(order.getStatus()) || "confirmed".equals(order.getStatus()))
                 .mapToDouble(Order::getTotalAmount)
                 .sum();
     }
-    
+
     public int getCompletedOrders() {
         List<Order> orders = orderDAO.getAllOrders();
         return (int) orders.stream()
-                .filter(order -> "delivered".equals(order.getStatus()) || "completed".equals(order.getStatus()))
+                .filter(order -> "delivered".equals(order.getStatus()) || "confirmed".equals(order.getStatus()))
                 .count();
     }
-    
+
     public int getShippedOrders() {
         List<Order> orders = orderDAO.getAllOrders();
         return (int) orders.stream()
                 .filter(order -> "shipped".equals(order.getStatus()))
                 .count();
     }
-    
+
     public int getCancelledOrders() {
         List<Order> orders = orderDAO.getAllOrders();
         return (int) orders.stream()
                 .filter(order -> "cancelled".equals(order.getStatus()))
                 .count();
     }
-    
+
     public java.util.Map<String, Object> getMonthlyStats() {
         return orderDAO.getMonthlyStats();
     }
-    
+
+    public java.util.List<java.util.Map<String, Object>> getTopSellingProducts() {
+        return orderDAO.getTopSellingProducts();
+    }
+
     public List<Order> getOrdersBySellerId(int sellerId) {
         return orderDAO.getOrdersBySellerId(sellerId);
     }
-    
+
     public boolean restoreStockForOrder(int orderId) {
         try {
             List<OrderDAO.OrderItem> items = orderDAO.getOrderItems(orderId);
@@ -171,7 +175,7 @@ public class OrderBO {
 
             // Update order status to cancelled
             boolean success = orderDAO.updateOrderStatus(orderId, "cancelled");
-            
+
             if (success) {
                 // Restore stock for cancelled order
                 List<OrderDAO.OrderItem> items = orderDAO.getOrderItems(orderId);
@@ -186,4 +190,4 @@ public class OrderBO {
             return false;
         }
     }
-} 
+}

@@ -92,7 +92,8 @@
                                                             class="btn btn-outline-primary btn-sm">
                                                             <i class="fas fa-eye me-1"></i>Xem chi tiết
                                                         </a>
-                                                        <c:if test="${not empty sessionScope.user}">
+                                                        <c:if
+                                                            test="${not empty sessionScope.user && sessionScope.user.role != 'admin'}">
                                                             <form
                                                                 action="${pageContext.request.contextPath}/order/add-to-cart"
                                                                 method="post" class="d-grid">

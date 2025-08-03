@@ -131,10 +131,6 @@
                                                                                 <c:when
                                                                                     test="${sessionScope.user.role == 'admin'}">
                                                                                     <!-- Admin users cannot add to cart -->
-                                                                                    <button
-                                                                                        class="btn btn-outline-secondary btn-sm"
-                                                                                        disabled>
-                                                                                    </button>
                                                                                 </c:when>
                                                                                 <c:when
                                                                                     test="${sessionScope.user.id == product.sellerId}">

@@ -72,7 +72,15 @@
         <extension>gif</extension>
         <mime-type>image/gif</mime-type>
     </mime-mapping>
+    <mime-mapping>
+        <extension>webp</extension>
+        <mime-type>image/webp</mime-type>
+    </mime-mapping>
 
-
+    <!-- Static Resource Mapping for Uploads -->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/uploads/*</url-pattern>
+    </servlet-mapping>
 
 </web-app> 

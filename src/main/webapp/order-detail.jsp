@@ -167,10 +167,20 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="d-grid gap-2">
-                                            <a href="${pageContext.request.contextPath}/order/list"
-                                                class="btn btn-outline-secondary">
-                                                <i class="fas fa-arrow-left"></i> Quay lại danh sách
-                                            </a>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.user.role == 'admin'}">
+                                                    <a href="${pageContext.request.contextPath}/admin/orders"
+                                                        class="btn btn-outline-secondary">
+                                                        <i class="fas fa-arrow-left"></i> Quay lại danh sách
+                                                    </a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="${pageContext.request.contextPath}/order/list"
+                                                        class="btn btn-outline-secondary">
+                                                        <i class="fas fa-arrow-left"></i> Quay lại danh sách
+                                                    </a>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <c:if test="${order.status == 'pending'}">
                                                 <button class="btn btn-danger" onclick="cancelOrder('${order.id}')">
                                                     <i class="fas fa-times"></i> Hủy đơn hàng
@@ -192,9 +202,18 @@
                         <div class="alert alert-warning">
                             <h4><i class="fas fa-exclamation-triangle"></i> Không tìm thấy đơn hàng</h4>
                             <p>Đơn hàng bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
-                            <a href="${pageContext.request.contextPath}/order/list" class="btn btn-primary">
-                                <i class="fas fa-arrow-left"></i> Quay lại danh sách đơn hàng
-                            </a>
+                            <c:choose>
+                                <c:when test="${sessionScope.user.role == 'admin'}">
+                                    <a href="${pageContext.request.contextPath}/admin/orders" class="btn btn-primary">
+                                        <i class="fas fa-arrow-left"></i> Quay lại danh sách đơn hàng
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${pageContext.request.contextPath}/order/list" class="btn btn-primary">
+                                        <i class="fas fa-arrow-left"></i> Quay lại danh sách đơn hàng
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </c:if>
                 </div>

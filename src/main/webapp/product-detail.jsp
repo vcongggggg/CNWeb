@@ -104,23 +104,27 @@
                                             </div>
                                         </c:when>
                                         <c:otherwise>
-                                            <!-- Regular users can add to cart -->
-                                            <form action="${pageContext.request.contextPath}/order/add-to-cart"
-                                                method="post" class="mb-3">
-                                                <input type="hidden" name="productId" value="${product.id}">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label for="quantity" class="form-label">Số lượng:</label>
-                                                        <input type="number" class="form-control" id="quantity"
-                                                            name="quantity" value="1" min="1" max="${product.stock}">
+                                            <!-- Regular users (not admin) can add to cart -->
+                                            <c:if test="${sessionScope.user.role != 'admin'}">
+                                                <form action="${pageContext.request.contextPath}/order/add-to-cart"
+                                                    method="post" class="mb-3">
+                                                    <input type="hidden" name="productId" value="${product.id}">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label for="quantity" class="form-label">Số lượng:</label>
+                                                            <input type="number" class="form-control" id="quantity"
+                                                                name="quantity" value="1" min="1"
+                                                                max="${product.stock}">
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <button type="submit"
+                                                                class="btn btn-primary btn-lg w-100 mt-4">
+                                                                <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-8">
-                                                        <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
-                                                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </c:if>
                                         </c:otherwise>
                                     </c:choose>
                                 </c:if>

@@ -22,14 +22,14 @@
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2"><i class="fas fa-shopping-cart me-2"></i>Thống kê đơn hàng</h1>
                         <div class="btn-toolbar mb-2 mb-md-0">
-                            <a href="${pageContext.request.contextPath}/order/list" class="btn btn-primary">
+                            <a href="${pageContext.request.contextPath}/admin/orders" class="btn btn-primary">
                                 <i class="fas fa-list me-2"></i>Xem đơn hàng
                             </a>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card text-center">
                                 <div class="card-body">
                                     <i class="fas fa-shopping-cart fa-3x text-primary mb-3"></i>
@@ -38,20 +38,29 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card text-center">
                                 <div class="card-body">
                                     <i class="fas fa-clock fa-3x text-warning mb-3"></i>
                                     <h3 class="text-warning">${pendingOrders}</h3>
-                                    <p class="text-muted">Đơn hàng chờ xử lý</p>
+                                    <p class="text-muted">Chờ xử lý</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card text-center">
                                 <div class="card-body">
-                                    <i class="fas fa-money-bill-wave fa-3x text-success mb-3"></i>
-                                    <h3 class="text-success">
+                                    <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                                    <h3 class="text-success">${completedOrders}</h3>
+                                    <p class="text-muted">Đã hoàn thành</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="fas fa-money-bill-wave fa-3x text-info mb-3"></i>
+                                    <h3 class="text-info">
                                         <fmt:formatNumber value="${totalRevenue}" type="currency"
                                             currencySymbol="VNĐ" />
                                     </h3>
@@ -76,16 +85,59 @@
                                                         <th>Tháng/Năm</th>
                                                         <th>Số đơn hàng</th>
                                                         <th>Doanh thu</th>
+                                                        <th>Trung bình/đơn</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <c:forEach var="month" items="${monthlyStats.monthly_data}">
                                                         <tr>
-                                                            <td>${month.month}/${month.year}</td>
-                                                            <td>${month.total_orders}</td>
                                                             <td>
-                                                                <fmt:formatNumber value="${month.total_revenue}"
-                                                                    type="currency" currencySymbol="VNĐ" />
+                                                                <strong>
+                                                                    <c:choose>
+                                                                        <c:when test="${month.month == 1}">Tháng 1
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 2}">Tháng 2
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 3}">Tháng 3
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 4}">Tháng 4
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 5}">Tháng 5
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 6}">Tháng 6
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 7}">Tháng 7
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 8}">Tháng 8
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 9}">Tháng 9
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 10}">Tháng 10
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 11}">Tháng 11
+                                                                        </c:when>
+                                                                        <c:when test="${month.month == 12}">Tháng 12
+                                                                        </c:when>
+                                                                        <c:otherwise>Tháng ${month.month}</c:otherwise>
+                                                                    </c:choose>
+                                                                    /${month.year}
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                <span class="badge bg-info">${month.total_orders}</span>
+                                                            </td>
+                                                            <td>
+                                                                <strong class="text-success">
+                                                                    <fmt:formatNumber value="${month.total_revenue}"
+                                                                        type="currency" currencySymbol="VNĐ" />
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                <small class="text-muted">
+                                                                    <fmt:formatNumber
+                                                                        value="${month.total_revenue / month.total_orders}"
+                                                                        type="currency" currencySymbol="VNĐ" />
+                                                                </small>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -166,11 +218,56 @@
                                     <h5><i class="fas fa-table me-2"></i>Top sản phẩm bán chạy</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-center text-muted">
-                                        <i class="fas fa-chart-bar fa-3x mb-3"></i>
-                                        <p>Danh sách sản phẩm bán chạy</p>
-                                        <small>Chức năng này sẽ được phát triển thêm</small>
-                                    </div>
+                                    <c:if test="${not empty topProducts}">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Sản phẩm</th>
+                                                        <th>Thương hiệu</th>
+                                                        <th>Số lượng đã bán</th>
+                                                        <th>Doanh thu</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="product" items="${topProducts}" varStatus="status">
+                                                        <tr>
+                                                            <td>${status.index + 1}</td>
+                                                            <td>
+                                                                <div class="d-flex align-items-center">
+                                                                    <img src="${product.image}" alt="${product.name}"
+                                                                        class="me-3"
+                                                                        style="width: 50px; height: 50px; object-fit: cover;">
+                                                                    <div>
+                                                                        <strong>${product.name}</strong>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>${product.brand}</td>
+                                                            <td>
+                                                                <span
+                                                                    class="badge bg-primary">${product.total_sold}</span>
+                                                            </td>
+                                                            <td>
+                                                                <strong class="text-success">
+                                                                    <fmt:formatNumber value="${product.total_revenue}"
+                                                                        type="currency" currencySymbol="VNĐ" />
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${empty topProducts}">
+                                        <div class="text-center text-muted">
+                                            <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                                            <p>Chưa có dữ liệu sản phẩm bán chạy</p>
+                                            <small>Dữ liệu sẽ hiển thị khi có đơn hàng hoàn thành</small>
+                                        </div>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>

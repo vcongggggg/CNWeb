@@ -121,7 +121,7 @@
                                                             <i class="fas fa-eye me-1"></i>Xem chi tiết
                                                         </a>
                                                         <c:if
-                                                            test="${not empty sessionScope.user && product.stock > 0}">
+                                                            test="${not empty sessionScope.user && sessionScope.user.role != 'admin' && product.stock > 0}">
                                                             <form
                                                                 action="${pageContext.request.contextPath}/order/add-to-cart"
                                                                 method="post">
