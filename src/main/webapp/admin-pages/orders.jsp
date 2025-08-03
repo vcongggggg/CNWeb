@@ -4,6 +4,7 @@
             <!DOCTYPE html>
             <html lang="vi">
 
+<<<<<<< HEAD
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +29,13 @@
                             </div>
                         </div>
                     </div>
+=======
+    <!-- Main Content -->
+    <div class="container my-5">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><i class="fas fa-shopping-cart me-2"></i>Quản lý đơn hàng</h1>
+                </div>
+>>>>>>> 1f7bda8ac876eb87888026d4eb7e161294634b3d
 
                     <!-- Filter Section -->
                     <form method="get" action="${pageContext.request.contextPath}/admin/orders">
