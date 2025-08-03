@@ -93,93 +93,75 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <div class="card bg-success text-white">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h4 class="card-title">${totalUsers}</h4>
-                                <p class="card-text">Tổng người dùng</p>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="fas fa-users fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="card bg-info text-white">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h4 class="card-title">${totalOrders}</h4>
-                                <p class="card-text">Tổng đơn hàng</p>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="fas fa-shopping-cart fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                         <div class="col-md-3 mb-3">
+                 <div class="card bg-success text-white">
+                     <div class="card-body">
+                         <div class="d-flex justify-content-between">
+                             <div>
+                                 <h4 class="card-title">${totalUsers}</h4>
+                                 <p class="card-text">Tổng người dùng</p>
+                             </div>
+                             <div class="align-self-center">
+                                 <i class="fas fa-users fa-2x"></i>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-3 mb-3">
+                 <div class="card bg-info text-white">
+                     <div class="card-body">
+                         <div class="d-flex justify-content-between">
+                             <div>
+                                 <h4 class="card-title">${totalOrders}</h4>
+                                 <p class="card-text">Tổng đơn hàng</p>
+                             </div>
+                             <div class="align-self-center">
+                                 <i class="fas fa-shopping-cart fa-2x"></i>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+            
         </div>
 
-        <!-- Revenue Card -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card bg-dark text-white">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h4 class="card-title">Tổng doanh thu</h4>
-                                <h2 class="mb-0">
-                                    <fmt:formatNumber value="${totalRevenue}" pattern="#,###" /> VNĐ
-                                </h2>
-                            </div>
-                            <div>
-                                <i class="fas fa-money-bill-wave fa-3x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 
-        <!-- Quick Actions -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0"><i class="fas fa-bolt me-2"></i>Thao tác nhanh</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3 mb-2">
-                                <a href="${pageContext.request.contextPath}/admin/pending-products" class="btn btn-warning w-100">
-                                    <i class="fas fa-clock me-2"></i>Duyệt sản phẩm
-                                </a>
-                            </div>
-                            <div class="col-md-3 mb-2">
-                                <a href="${pageContext.request.contextPath}/admin/products" class="btn btn-primary w-100">
-                                    <i class="fas fa-box me-2"></i>Quản lý sản phẩm
-                                </a>
-                            </div>
-                            <div class="col-md-3 mb-2">
-                                <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-success w-100">
-                                    <i class="fas fa-users me-2"></i>Quản lý người dùng
-                                </a>
-                            </div>
-                            <div class="col-md-3 mb-2">
-                                <a href="${pageContext.request.contextPath}/admin/orders" class="btn btn-info w-100">
-                                    <i class="fas fa-shopping-cart me-2"></i>Quản lý đơn hàng
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                 <!-- Quick Actions -->
+         <div class="row mb-4">
+             <div class="col-12">
+                 <div class="card">
+                     <div class="card-header">
+                         <h5 class="card-title mb-0"><i class="fas fa-bolt me-2"></i>Thao tác nhanh</h5>
+                     </div>
+                     <div class="card-body">
+                         <div class="row">
+                             <div class="col-md-3 mb-2">
+                                 <a href="${pageContext.request.contextPath}/admin/pending-products" class="btn btn-warning w-100">
+                                     <i class="fas fa-clock me-2"></i>Duyệt sản phẩm
+                                 </a>
+                             </div>
+                             <div class="col-md-3 mb-2">
+                                 <a href="${pageContext.request.contextPath}/admin/products" class="btn btn-primary w-100">
+                                     <i class="fas fa-box me-2"></i>Quản lý sản phẩm
+                                 </a>
+                             </div>
+                             <div class="col-md-3 mb-2">
+                                 <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-success w-100">
+                                     <i class="fas fa-users me-2"></i>Quản lý người dùng
+                                 </a>
+                             </div>
+                             <div class="col-md-3 mb-2">
+                                 <a href="${pageContext.request.contextPath}/admin/orders" class="btn btn-info w-100">
+                                     <i class="fas fa-shopping-cart me-2"></i>Quản lý đơn hàng
+                                 </a>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
 
         <!-- Statistics Links -->
         <div class="row mb-4">
@@ -195,21 +177,21 @@
                                     <i class="fas fa-chart-pie me-2"></i>Thống kê tổng quan
                                 </a>
                             </div>
-                            <div class="col-md-3 mb-2">
-                                <a href="${pageContext.request.contextPath}/admin/product-stats" class="btn btn-outline-success w-100">
-                                    <i class="fas fa-chart-line me-2"></i>Thống kê sản phẩm
-                                </a>
-                            </div>
-                            <div class="col-md-3 mb-2">
-                                <a href="${pageContext.request.contextPath}/admin/order-stats" class="btn btn-outline-info w-100">
-                                    <i class="fas fa-chart-area me-2"></i>Thống kê đơn hàng
-                                </a>
-                            </div>
-                            <div class="col-md-3 mb-2">
-                                <a href="${pageContext.request.contextPath}/admin/category-stats" class="btn btn-outline-warning w-100">
-                                    <i class="fas fa-chart-bar me-2"></i>Thống kê danh mục
-                                </a>
-                            </div>
+                                                         <div class="col-md-3 mb-2">
+                                 <a href="${pageContext.request.contextPath}/admin/product-stats" class="btn btn-outline-success w-100">
+                                     <i class="fas fa-chart-line me-2"></i>Thống kê sản phẩm
+                                 </a>
+                             </div>
+                             <div class="col-md-3 mb-2">
+                                 <a href="${pageContext.request.contextPath}/admin/order-stats" class="btn btn-outline-info w-100">
+                                     <i class="fas fa-chart-area me-2"></i>Thống kê đơn hàng
+                                 </a>
+                             </div>
+                             <div class="col-md-3 mb-2">
+                                 <a href="${pageContext.request.contextPath}/admin/category-stats" class="btn btn-outline-warning w-100">
+                                     <i class="fas fa-chart-bar me-2"></i>Thống kê danh mục
+                                 </a>
+                             </div>
                         </div>
                     </div>
                 </div>
@@ -232,20 +214,21 @@
                                 </div>
                                 <span class="badge bg-warning rounded-pill">${pendingProducts}</span>
                             </div>
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1">Đơn hàng mới</h6>
-                                    <small class="text-muted">${totalOrders} đơn hàng trong hệ thống</small>
-                                </div>
-                                <span class="badge bg-info rounded-pill">${totalOrders}</span>
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1">Người dùng đăng ký</h6>
-                                    <small class="text-muted">${totalUsers} người dùng trong hệ thống</small>
-                                </div>
-                                <span class="badge bg-success rounded-pill">${totalUsers}</span>
-                            </div>
+                            
+                                                         <div class="list-group-item d-flex justify-content-between align-items-center">
+                                 <div>
+                                     <h6 class="mb-1">Đơn hàng mới</h6>
+                                     <small class="text-muted">${totalOrders} đơn hàng trong hệ thống</small>
+                                 </div>
+                                 <span class="badge bg-info rounded-pill">${totalOrders}</span>
+                             </div>
+                             <div class="list-group-item d-flex justify-content-between align-items-center">
+                                 <div>
+                                     <h6 class="mb-1">Người dùng đăng ký</h6>
+                                     <small class="text-muted">${totalUsers} người dùng trong hệ thống</small>
+                                 </div>
+                                 <span class="badge bg-success rounded-pill">${totalUsers}</span>
+                             </div>
                         </div>
                     </div>
                 </div>
@@ -269,26 +252,27 @@
                                     </a>
                                 </div>
                             </c:if>
-                            <div class="list-group-item">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">Kiểm tra đơn hàng</h6>
-                                    <small class="text-warning">Cần chú ý</small>
-                                </div>
-                                <p class="mb-1">Theo dõi tình trạng đơn hàng</p>
-                                <a href="${pageContext.request.contextPath}/admin/orders" class="btn btn-sm btn-info">
-                                    Xem đơn hàng
-                                </a>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">Quản lý người dùng</h6>
-                                    <small class="text-info">Định kỳ</small>
-                                </div>
-                                <p class="mb-1">Kiểm tra và quản lý tài khoản người dùng</p>
-                                <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-sm btn-success">
-                                    Quản lý
-                                </a>
-                            </div>
+                            
+                                                         <div class="list-group-item">
+                                 <div class="d-flex w-100 justify-content-between">
+                                     <h6 class="mb-1">Kiểm tra đơn hàng</h6>
+                                     <small class="text-warning">Cần chú ý</small>
+                                 </div>
+                                 <p class="mb-1">Theo dõi tình trạng đơn hàng</p>
+                                 <a href="${pageContext.request.contextPath}/admin/orders" class="btn btn-sm btn-info">
+                                     Xem đơn hàng
+                                 </a>
+                             </div>
+                             <div class="list-group-item">
+                                 <div class="d-flex w-100 justify-content-between">
+                                     <h6 class="mb-1">Quản lý người dùng</h6>
+                                     <small class="text-info">Định kỳ</small>
+                                 </div>
+                                 <p class="mb-1">Kiểm tra và quản lý tài khoản người dùng</p>
+                                 <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-sm btn-success">
+                                     Quản lý
+                                 </a>
+                             </div>
                         </div>
                     </div>
                 </div>

@@ -124,9 +124,12 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
         try {
             // Get dashboard statistics
-            int totalProducts = productBO.getAllProducts().size();
-            int pendingProducts = productBO.getPendingProducts().size();
-            int totalUsers = userBO.getAllUsers().size();
+            List<Product> allProducts = productBO.getAllProducts();
+            int totalProducts = allProducts != null ? allProducts.size() : 0;
+            List<Product> pendingProductsList = productBO.getPendingProducts();
+            int pendingProducts = pendingProductsList != null ? pendingProductsList.size() : 0;
+            List<User> allUsers = userBO.getAllUsers();
+            int totalUsers = allUsers != null ? allUsers.size() : 0;
             int totalOrders = orderBO.getTotalOrders();
             double totalRevenue = orderBO.getTotalRevenue();
             
@@ -195,15 +198,16 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
         try {
             // Get basic statistics
-            int totalProducts = productBO.getAllProducts().size();
-            int totalOrders = orderBO.getTotalOrders();
-            int pendingOrders = orderBO.getPendingOrders();
-            double totalRevenue = orderBO.getTotalRevenue();
+            List<Product> allProducts = productBO.getAllProducts();
+            int totalProducts = allProducts != null ? allProducts.size() : 0;
+            List<Product> pendingProductsList = productBO.getPendingProducts();
+            int pendingProducts = pendingProductsList != null ? pendingProductsList.size() : 0;
+            List<User> allUsers = userBO.getAllUsers();
+            int totalUsers = allUsers != null ? allUsers.size() : 0;
             
             request.setAttribute("totalProducts", totalProducts);
-            request.setAttribute("totalOrders", totalOrders);
-            request.setAttribute("pendingOrders", pendingOrders);
-            request.setAttribute("totalRevenue", totalRevenue);
+            request.setAttribute("pendingProducts", pendingProducts);
+            request.setAttribute("totalUsers", totalUsers);
             
             request.getRequestDispatcher("/admin/stats.jsp").forward(request, response);
         } catch (Exception e) {

@@ -38,8 +38,9 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/admin/products">Quản lý sản phẩm</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/pending-products">Duyệt sản phẩm</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">Quản lý người dùng</a></li>
+                                                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/pending-products">Duyệt sản phẩm</a></li>
+                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">Quản lý người dùng</a></li>
+                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/orders">Quản lý đơn hàng</a></li>
                         </ul>
                     </li>
                 </ul>
