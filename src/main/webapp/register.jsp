@@ -11,14 +11,8 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-                <i class="fas fa-mobile-alt"></i> Mobile Shop
-            </a>
-        </div>
-    </nav>
+    <!-- Include Smart Navigation -->
+    <jsp:include page="common-navbar.jsp" />
 
     <div class="container mt-5">
         <div class="row justify-content-center">
