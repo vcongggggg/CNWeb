@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DatabaseUtil {
     private static final String URL = "jdbc:mysql://localhost:3306/mobile_shop?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "123456789";
+    private static final String PASSWORD = "";
 
     static {
         try {
@@ -30,4 +30,4 @@ public class DatabaseUtil {
             }
         }
     }
-} 
+}

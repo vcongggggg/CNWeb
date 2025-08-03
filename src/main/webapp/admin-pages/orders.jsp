@@ -1,207 +1,172 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý đơn hàng - Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-                <i class="fas fa-mobile-alt me-2"></i>Mobile Shop
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-cog me-1"></i>Quản lý
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/products">Quản lý sản phẩm</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/pending-products">Duyệt sản phẩm</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">Quản lý người dùng</a></li>
-                            <li><a class="dropdown-item active" href="${pageContext.request.contextPath}/admin/orders">Quản lý đơn hàng</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/product-stats">Thống kê sản phẩm</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/order-stats">Thống kê đơn hàng</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/category-stats">Thống kê danh mục</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <c:if test="${not empty sessionScope.user}">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i>${sessionScope.user.fullName}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/profile">Hồ sơ</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/logout">Đăng xuất</a></li>
-                            </ul>
-                        </li>
-                    </c:if>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+            <!DOCTYPE html>
+            <html lang="vi">
 
-    <!-- Main Content -->
-    <div class="container my-5">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2"><i class="fas fa-shopping-cart me-2"></i>Quản lý đơn hàng</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group me-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Xuất Excel</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">In báo cáo</button>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Quản lý đơn hàng - Admin</title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+            </head>
+
+            <body>
+                <!-- Include Admin Navbar -->
+                <jsp:include page="admin-navbar.jsp" />
+
+                <!-- Main Content -->
+                <div class="container my-5">
+                    <div
+                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2"><i class="fas fa-shopping-cart me-2"></i>Quản lý đơn hàng</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Xuất Excel</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">In báo cáo</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Filter Section -->
-                <form method="get" action="${pageContext.request.contextPath}/admin/orders">
-                    <div class="row mb-3">
-                        <div class="col-md-3">
-                            <select class="form-select" name="status" onchange="this.form.submit()">
-                                <option value="">Tất cả trạng thái</option>
-                                <option value="pending" ${param.status == 'pending' ? 'selected' : ''}>Chờ xử lý</option>
-                                <option value="processing" ${param.status == 'processing' ? 'selected' : ''}>Đang xử lý</option>
-                                <option value="shipped" ${param.status == 'shipped' ? 'selected' : ''}>Đã gửi hàng</option>
-                                <option value="delivered" ${param.status == 'delivered' ? 'selected' : ''}>Đã giao hàng</option>
-                                <option value="cancelled" ${param.status == 'cancelled' ? 'selected' : ''}>Đã hủy</option>
-                            </select>
+                    <!-- Filter Section -->
+                    <form method="get" action="${pageContext.request.contextPath}/admin/orders">
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <select class="form-select" name="status" onchange="this.form.submit()">
+                                    <option value="">Tất cả trạng thái</option>
+                                    <option value="pending" ${param.status=='pending' ? 'selected' : '' }>Chờ xử lý
+                                    </option>
+                                    <option value="processing" ${param.status=='processing' ? 'selected' : '' }>Đang xử
+                                        lý</option>
+                                    <option value="shipped" ${param.status=='shipped' ? 'selected' : '' }>Đã gửi hàng
+                                    </option>
+                                    <option value="delivered" ${param.status=='delivered' ? 'selected' : '' }>Đã giao
+                                        hàng</option>
+                                    <option value="cancelled" ${param.status=='cancelled' ? 'selected' : '' }>Đã hủy
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" class="form-control" name="date" value="${param.date}">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" name="search" placeholder="Tìm kiếm đơn hàng..."
+                                    value="${param.search}">
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search me-2"></i>Lọc
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <input type="date" class="form-control" name="date" value="${param.date}">
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" name="search" placeholder="Tìm kiếm đơn hàng..." value="${param.search}">
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-search me-2"></i>Lọc
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
 
-                <!-- Orders Table -->
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Mã đơn hàng</th>
-                                <th>Tổng tiền</th>
-                                <th>Trạng thái</th>
-                                <th>Ngày đặt</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="order" items="${orders}">
+                    <!-- Orders Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
                                 <tr>
-                                    <td>
-                                        <strong>#${order.id}</strong>
-                                    </td>
-                                    <td>
-                                        <strong class="text-danger">
-                                            <fmt:formatNumber value="${order.totalAmount}" type="currency" currencySymbol="VNĐ"/>
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${order.status == 'pending'}">
-                                                <span class="badge bg-warning">Chờ xử lý</span>
-                                            </c:when>
-                                            <c:when test="${order.status == 'processing'}">
-                                                <span class="badge bg-info">Đang xử lý</span>
-                                            </c:when>
-                                            <c:when test="${order.status == 'shipped'}">
-                                                <span class="badge bg-primary">Đã gửi hàng</span>
-                                            </c:when>
-                                            <c:when test="${order.status == 'delivered'}">
-                                                <span class="badge bg-success">Đã giao hàng</span>
-                                            </c:when>
-                                            <c:when test="${order.status == 'cancelled'}">
-                                                <span class="badge bg-danger">Đã hủy</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="badge bg-secondary">${order.status}</span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td>
-                                        <fmt:formatDate value="${order.orderDate}" pattern="dd/MM/yyyy HH:mm"/>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <a href="${pageContext.request.contextPath}/order/view?id=${order.id}" 
-                                               class="btn btn-sm btn-outline-primary">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-sm btn-outline-success" 
-                                                    onclick="updateStatus(${order.id}, 'processing')">
-                                                <i class="fas fa-play"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-outline-info" 
-                                                    onclick="updateStatus(${order.id}, 'shipped')">
-                                                <i class="fas fa-shipping-fast"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-outline-warning" 
-                                                    onclick="updateStatus(${order.id}, 'delivered')">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                    onclick="updateStatus(${order.id}, 'cancelled')">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                    </td>
+                                    <th>Mã đơn hàng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Thao tác</th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="order" items="${orders}">
+                                    <tr>
+                                        <td>
+                                            <strong>#${order.id}</strong>
+                                        </td>
+                                        <td>
+                                            <strong class="text-danger">
+                                                <fmt:formatNumber value="${order.totalAmount}" type="currency"
+                                                    currencySymbol="VNĐ" />
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${order.status == 'pending'}">
+                                                    <span class="badge bg-warning">Chờ xử lý</span>
+                                                </c:when>
+                                                <c:when test="${order.status == 'processing'}">
+                                                    <span class="badge bg-info">Đang xử lý</span>
+                                                </c:when>
+                                                <c:when test="${order.status == 'shipped'}">
+                                                    <span class="badge bg-primary">Đã gửi hàng</span>
+                                                </c:when>
+                                                <c:when test="${order.status == 'delivered'}">
+                                                    <span class="badge bg-success">Đã giao hàng</span>
+                                                </c:when>
+                                                <c:when test="${order.status == 'cancelled'}">
+                                                    <span class="badge bg-danger">Đã hủy</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="badge bg-secondary">${order.status}</span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                            <fmt:formatDate value="${order.orderDate}" pattern="dd/MM/yyyy HH:mm" />
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="${pageContext.request.contextPath}/order/view?id=${order.id}"
+                                                    class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-outline-success"
+                                                    onclick="updateStatus('${order.id}', 'processing')">
+                                                    <i class="fas fa-play"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-info"
+                                                    onclick="updateStatus('${order.id}', 'shipped')">
+                                                    <i class="fas fa-shipping-fast"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-warning"
+                                                    onclick="updateStatus('${order.id}', 'delivered')">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                                    onclick="updateStatus('${order.id}', 'cancelled')">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Trước</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Sau</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
                 </div>
 
-                <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Trước</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Sau</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+                    function updateStatus(orderId, status) {
+                        if (confirm('Bạn có chắc muốn cập nhật trạng thái đơn hàng này?')) {
+                            // Implement status update logic here
+                            console.log('Updating order', orderId, 'to status:', status);
+                        }
+                    }
+                </script>
+            </body>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function updateStatus(orderId, status) {
-            if (confirm('Bạn có chắc muốn cập nhật trạng thái đơn hàng này?')) {
-                // Implement status update logic here
-                console.log('Updating order', orderId, 'to status:', status);
-            }
-        }
-    </script>
-</body>
-</html> 
+            </html>
