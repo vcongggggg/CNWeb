@@ -96,6 +96,24 @@ public class ProductController extends HttpServlet {
                 // Forward to search page with error
                 request.getRequestDispatcher("/product-search.jsp").forward(request, response);
             }
+        } else if (pathInfo.equals("/my-products")) {
+            // Show seller's products
+            javax.servlet.http.HttpSession session = request.getSession();
+            com.mobile.model.User user = (com.mobile.model.User) session.getAttribute("user");
+            
+            if (user == null) {
+                response.sendRedirect(request.getContextPath() + "/user/login");
+                return;
+            }
+            
+            try {
+                List<Product> myProducts = productBO.getProductsBySellerId(user.getId());
+                request.setAttribute("myProducts", myProducts);
+                request.getRequestDispatcher("/my-products.jsp").forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } else if (pathInfo.equals("/category")) {
             // Filter by category
             String category = request.getParameter("category");
